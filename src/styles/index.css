@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全局样式 */
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  html, body {
+    @apply h-full w-full m-0 p-0;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    @apply h-full w-full;
+  }
+
+  /* 移动端触控优化 */
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+    @apply select-none;
+  }
+
+  /* 滚动条样式 */
+  ::-webkit-scrollbar {
+    @apply w-1;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+}
+
+/* 通用组件样式 */
+@layer components {
+  /* 按钮样式 */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
+    @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 text-white;
+    @apply hover:bg-primary-600 active:bg-primary-700;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800;
+    @apply hover:bg-gray-300 active:bg-gray-400;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary-500 text-primary-500 bg-transparent;
+    @apply hover:bg-primary-50 active:bg-primary-100;
+  }
+
+  /* 输入框样式 */
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+    @apply disabled:bg-gray-100 disabled:cursor-not-allowed;
+  }
+
+  /* 卡片样式 */
+  .card {
+    @apply bg-white rounded-xl shadow-sm p-4;
+  }
+
+  /* 页面容器 */
+  .page-container {
+    @apply h-full flex flex-col bg-gray-50;
+  }
+
+  /* 页面头部 */
+  .page-header {
+    @apply sticky top-0 z-10 bg-white shadow-sm px-4 py-3;
+  }
+
+  /* 页面内容 */
+  .page-content {
+    @apply flex-1 overflow-y-auto px-4 py-4;
+  }
+
+  /* 底部导航栏 */
+  .bottom-nav {
+    @apply sticky bottom-0 z-10 bg-white border-t border-gray-200;
+    @apply flex items-center justify-around px-2 py-2;
+  }
+
+  .bottom-nav-item {
+    @apply flex flex-col items-center justify-center flex-1 py-2;
+    @apply text-gray-500 transition-colors duration-200;
+  }
+
+  .bottom-nav-item.active {
+    @apply text-primary-500;
+  }
+}
+
+/* 工具类 */
+@layer utilities {
+  .safe-area-inset-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-area-inset-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  /* 动画 */
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+
+  .active\:scale-98:active {
+    transform: scale(0.98);
+  }
+
+  .active\:scale-95:active {
+    transform: scale(0.95);
+  }
+}
+
