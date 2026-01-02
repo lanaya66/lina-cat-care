@@ -8,7 +8,7 @@ import { FoodType, FOOD_TYPE_NAMES, MealPrepFormData } from '@/types';
 
 interface MealPrepFormProps {
   onClose: () => void;
-  onSubmit: (data: MealPrepFormData) => void;
+  onSubmit: (data: MealPrepFormData) => Promise<void>;
 }
 
 export default function MealPrepForm({ onClose, onSubmit }: MealPrepFormProps) {
@@ -18,19 +18,27 @@ export default function MealPrepForm({ onClose, onSubmit }: MealPrepFormProps) {
   const [initialWaterAdded, setInitialWaterAdded] = useState('0');
   const [timestamp, setTimestamp] = useState(Date.now());
   const [isFullyConsumed, setIsFullyConsumed] = useState(false); // 是否已经全部吃完
+  const [isSubmitting, setIsSubmitting] = useState(false); // 提交中状态
 
   // 处理提交
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    onSubmit({
-      foodType,
-      foodName,
-      initialWeight,
-      initialWaterAdded,
-      timestamp,
-      isFullyConsumed,
-    });
+    if (isSubmitting) return; // 防止重复提交
+    
+    setIsSubmitting(true);
+    try {
+      await onSubmit({
+        foodType,
+        foodName,
+        initialWeight,
+        initialWaterAdded,
+        timestamp,
+        isFullyConsumed,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // 格式化时间用于输入框（5分钟取整）
@@ -168,15 +176,17 @@ export default function MealPrepForm({ onClose, onSubmit }: MealPrepFormProps) {
             <button
               type="button"
               onClick={onClose}
-              className="btn btn-secondary flex-1 py-3"
+              disabled={isSubmitting}
+              className="btn btn-secondary flex-1 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               取消
             </button>
             <button
               type="submit"
-              className="btn btn-primary flex-1 py-3"
+              disabled={isSubmitting}
+              className="btn btn-primary flex-1 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              保存
+              {isSubmitting ? '保存中...' : '保存'}
             </button>
           </div>
         </form>

@@ -8,7 +8,7 @@ import { AddRecordFormData, MedicineType, MEDICINE_TYPE_NAMES } from '@/types';
 
 interface AddRecordFormProps {
   onClose: () => void;
-  onSubmit: (data: AddRecordFormData) => void;
+  onSubmit: (data: AddRecordFormData) => Promise<void>;
 }
 
 export default function AddRecordForm({ onClose, onSubmit }: AddRecordFormProps) {
@@ -20,6 +20,7 @@ export default function AddRecordForm({ onClose, onSubmit }: AddRecordFormProps)
   const [note, setNote] = useState('');
   const [breathingRate, setBreathingRate] = useState('');
   const [timestamp, setTimestamp] = useState(Date.now());
+  const [isSubmitting, setIsSubmitting] = useState(false); // 提交中状态
 
   // 格式化时间用于输入框（5分钟取整）
   const formatDateTimeLocal = (ts: number) => {
@@ -35,8 +36,10 @@ export default function AddRecordForm({ onClose, onSubmit }: AddRecordFormProps)
   };
 
   // 处理提交
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isSubmitting) return; // 防止重复提交
 
     const data: AddRecordFormData = {
       type,
@@ -71,7 +74,12 @@ export default function AddRecordForm({ onClose, onSubmit }: AddRecordFormProps)
       data.breathingRate = breathingRate;
     }
 
-    onSubmit(data);
+    setIsSubmitting(true);
+    try {
+      await onSubmit(data);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -282,12 +290,17 @@ export default function AddRecordForm({ onClose, onSubmit }: AddRecordFormProps)
             <button
               type="button"
               onClick={onClose}
-              className="btn btn-secondary flex-1 py-3"
+              disabled={isSubmitting}
+              className="btn btn-secondary flex-1 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               取消
             </button>
-            <button type="submit" className="btn btn-primary flex-1 py-3">
-              保存
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="btn btn-primary flex-1 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? '保存中...' : '保存'}
             </button>
           </div>
         </form>

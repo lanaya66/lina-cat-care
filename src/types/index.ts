@@ -212,6 +212,9 @@ export interface MealPrepFormData {
   isFullyConsumed?: boolean; // 是否已经全部吃完（创建时直接结算）
 }
 
+// 表单提交回调类型
+export type FormSubmitHandler<T> = (data: T) => Promise<void> | void;
+
 /** 添加记录表单数据 */
 export interface AddRecordFormData {
   type: 'pee' | 'poop' | 'medicine' | 'status' | 'breathing_rate';
