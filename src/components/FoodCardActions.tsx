@@ -22,7 +22,7 @@ type ActionType = 'menu' | 'edit' | 'add_water' | 'add_food' | 'update_remaining
 export default function FoodCardActions({
   card,
   onClose,
-  onEditMealPrep,
+  onEditMealPrep: _onEditMealPrep,
   onAddWater,
   onAddFood,
   onUpdateRemaining,

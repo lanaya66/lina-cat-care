@@ -3,7 +3,7 @@
  */
 
 import { create } from 'zustand';
-import { FoodCard, FoodType } from '@/types';
+import { FoodCard } from '@/types';
 import { supabase, getCurrentUserId } from '@/lib/supabase';
 
 interface FoodCardState {
@@ -19,7 +19,7 @@ interface FoodCardState {
   clearCards: () => void;
 }
 
-export const useFoodCardStore = create<FoodCardState>((set, get) => ({
+export const useFoodCardStore = create<FoodCardState>((set) => ({
   cards: [],
   loading: false,
   error: null,

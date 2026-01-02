@@ -5,7 +5,7 @@
  */
 
 import { supabase } from '@/lib/supabase';
-import { TimelineEntry, FoodCard, WATER_RATIO_CONFIG } from '@/types';
+import { TimelineEntry, FoodCard } from '@/types';
 import { calculateIntakeDetailed } from './calculations';
 
 /**

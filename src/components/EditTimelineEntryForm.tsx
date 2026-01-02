@@ -2,7 +2,7 @@
  * 编辑时间线记录表单
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { X } from 'lucide-react';
 import { TimelineEntry, MEDICINE_TYPE_NAMES, MedicineType } from '@/types';
 

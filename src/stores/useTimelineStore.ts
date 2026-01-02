@@ -19,7 +19,7 @@ interface TimelineState {
   clearEntries: () => void;
 }
 
-export const useTimelineStore = create<TimelineState>((set, get) => ({
+export const useTimelineStore = create<TimelineState>((set) => ({
   entries: [],
   loading: false,
   error: null,
